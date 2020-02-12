@@ -28,7 +28,8 @@ class Graph:
     """
     return self.vertices[vertex_id]
 
-
+  # visiting current neighbors first,
+  # then visiting those neighbors
   def bft(self, starting_vertex):
     """
     Print each vertex in breadth-first order
