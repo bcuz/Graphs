@@ -88,6 +88,8 @@ class Graph:
         for edge in edges:
           stack.push(edge)
 
+  def helper(self, vertex):
+    pass
 
   def dft_recursive(self, starting_vertex):
     """
@@ -96,8 +98,21 @@ class Graph:
 
     This should be done using recursion.
     """
-    pass  # TODO
+    visited = set()
 
+    if starting_vertex == None:
+      return
+    
+    visited.add(starting_vertex)
+    print(visited)
+
+    edges = self.get_neighbors(starting_vertex)
+    
+    for edge in edges:
+      if edge not in visited:
+        # print('e', edge)
+        self.dft_recursive(edge)
+      
   def bfs(self, starting_vertex, destination_vertex):
     """
     Return a list containing the shortest path from
@@ -192,7 +207,8 @@ if __name__ == '__main__':
   '''
   print('next')
   graph.dft(1)
-  # graph.dft_recursive(1)
+  print('next1')
+  graph.dft_recursive(1)
 
   '''
   Valid BFS path:
