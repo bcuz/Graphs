@@ -121,16 +121,33 @@ class Graph:
     starting_vertex to destination_vertex in
     breath-first order.
     """
+    # do it for just the first path
+
     # make a queue
     # make a set for visited
+    queue = Queue()
+    visited = set()
 
     # enqueue A PATH TO the starting_vertex
+    queue.enqueue(starting_vertex)
 
     # while the queue isn't empty:
     ## dequeue the next path
     ## current_node is the last thing in the path
     ## check if it's the target, aka the destination_vertex
     ## if so, return the path!!
+
+    while queue.size() > 0:
+      # queue.dequeue()
+      # current_node = queue.queue[-1]
+      current_node = queue.dequeue()
+
+      # if 
+
+    #   
+
+    # something with adding and then checking if the last thing added
+    # is the destination.
 
     ## if not, mark this as visited
     ## get the neighbors
@@ -207,6 +224,7 @@ if __name__ == '__main__':
     1, 2, 4, 7, 6, 3, 5
     1, 2, 4, 6, 3, 5, 7
   '''
+    
   print('next')
   graph.dft(1)
   print('next1')
