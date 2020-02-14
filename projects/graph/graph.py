@@ -205,7 +205,51 @@ class Graph:
 
     This should be done using recursion.
     """
-    pass  # TODO
+    stack = Stack()
+    
+    visited = set()
+
+    path = []
+
+    path.append(starting_vertex)
+
+    stack.push(path)
+
+    while stack.size() > 0:
+      current_path = stack.pop()
+      current_node = current_path[-1]
+
+      if current_node == destination_vertex:
+        return current_path
+      else:
+        if current_node not in visited:
+          visited.add(current_node)
+          edges = self.get_neighbors(current_node)
+          for edge in edges:
+            copyPath = current_path.copy()
+            copyPath.append(edge)
+            stack.push(copyPath)
+
+    def helper(starting_vertex):
+      if starting_vertex == None:
+        return
+
+      print(starting_vertex)
+
+      path.append(starting_vertex)
+      stack.push(path)
+      
+
+      visited.add(starting_vertex)
+
+      edges = self.get_neighbors(starting_vertex)
+      # print(starting_vertex, edges)
+      
+      for edge in edges:
+        if edge not in visited:
+          helper(edge)
+
+    helper(starting_vertex)
 
 if __name__ == '__main__':
   graph = Graph()  # Instantiate your graph
