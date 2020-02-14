@@ -125,19 +125,27 @@ class Graph:
 
     # make a queue
     # make a set for visited
-    queue = Queue()
-    visited = set()
-    path = []
 
     # enqueue A PATH TO the starting_vertex
-    path.append(starting_vertex)
 
-    queue.enqueue(path)
     # while the queue isn't empty:
     ## dequeue the next path
     ## current_node is the last thing in the path
     ## check if it's the target, aka the destination_vertex
     ## if so, return the path!!
+
+    ## if not, mark this as visited
+    ## get the neighbors
+    ## copy the path, add the neighbor to the copy
+    ## for each one, add a PATH TO IT to our queue
+
+    queue = Queue()
+    visited = set()
+    path = []
+
+    path.append(starting_vertex)
+
+    queue.enqueue(path)
 
     while queue.size() > 0:
       current_path = queue.dequeue()
@@ -158,12 +166,6 @@ class Graph:
             # print(copyPath)
             # path.append(copyPath)
             queue.enqueue(copyPath)
-
-    ## if not, mark this as visited
-    ## get the neighbors
-    ## copy the path, add the neighbor to the copy
-    ## for each one, add a PATH TO IT to our queue
-
 
   def dfs(self, starting_vertex, destination_vertex):
     """
