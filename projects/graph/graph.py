@@ -197,7 +197,7 @@ class Graph:
             copyPath.append(edge)
             stack.push(copyPath)
 
-  def dfs_recursive(self, starting_vertex):
+  def dfs_recursive(self, starting_vertex, destination_vertex):
     """
     Return a list containing a path from
     starting_vertex to destination_vertex in
@@ -206,48 +206,48 @@ class Graph:
     This should be done using recursion.
     """
     stack = Stack()
-    
+    # make a set for the visited nodes
     visited = set()
-
     path = []
 
     path.append(starting_vertex)
 
     stack.push(path)
 
-    while stack.size() > 0:
-      current_path = stack.pop()
-      current_node = current_path[-1]
-
-      if current_node == destination_vertex:
-        return current_path
-      else:
-        if current_node not in visited:
-          visited.add(current_node)
-          edges = self.get_neighbors(current_node)
-          for edge in edges:
-            copyPath = current_path.copy()
-            copyPath.append(edge)
-            stack.push(copyPath)
-
     def helper(starting_vertex):
       if starting_vertex == None:
         return
 
-      print(starting_vertex)
+      current_path = stack.pop()
+      current_node = current_path[-1]
 
-      path.append(starting_vertex)
-      stack.push(path)
+      # print(5, visited)
+
+      if current_node == destination_vertex:
+        # for some reason isnt being returned at the end.
+        # print(current_path)
+        return current_path
+
+      else:
+        if current_node not in visited:
+          visited.add(current_node)
+
+          edges = self.get_neighbors(current_node)
+
+          # print('e', edges)
       
+          for edge in edges:
+            if edge not in visited:
+              copyPath = current_path.copy()
+              copyPath.append(edge)
+              # copyPath.insert(0, edge)
+              # print('c', copyPath)
+              stack.push(copyPath)
 
-      visited.add(starting_vertex)
-
-      edges = self.get_neighbors(starting_vertex)
-      # print(starting_vertex, edges)
-      
-      for edge in edges:
-        if edge not in visited:
-          helper(edge)
+              x = helper(edge)
+              print(edge, x)
+      # being wiped out by something.
+      # print('again')
 
     helper(starting_vertex)
 
@@ -322,4 +322,5 @@ if __name__ == '__main__':
     [1, 2, 4, 7, 6]
   '''
   print(graph.dfs(1, 6))
-  # print(graph.dfs_recursive(1, 6))
+  # print('next4')
+  # print(graph.dfs_recursive(1, 4))
