@@ -115,22 +115,24 @@ class Graph:
 
     helper(starting_vertex)
       
+  # had to watch until 34:45 of https://www.youtube.com/watch?v=aWoLa0UisNs&feature=youtu.be
   def bfs(self, starting_vertex, destination_vertex):
     """
     Return a list containing the shortest path from
     starting_vertex to destination_vertex in
     breath-first order.
     """
-    # do it for just the first path
 
     # make a queue
     # make a set for visited
     queue = Queue()
     visited = set()
+    path = []
 
     # enqueue A PATH TO the starting_vertex
-    queue.enqueue(starting_vertex)
+    path.append(starting_vertex)
 
+    queue.enqueue(path)
     # while the queue isn't empty:
     ## dequeue the next path
     ## current_node is the last thing in the path
@@ -138,16 +140,24 @@ class Graph:
     ## if so, return the path!!
 
     while queue.size() > 0:
-      # queue.dequeue()
-      # current_node = queue.queue[-1]
-      current_node = queue.dequeue()
+      current_path = queue.dequeue()
+      current_node = current_path[-1]
 
-      # if 
+      if current_node == destination_vertex:
+        return current_path
+      else:
+        if current_node not in visited:
+          visited.add(current_node)
 
-    #   
+          edges = self.get_neighbors(current_node)
+          # print(edges)
 
-    # something with adding and then checking if the last thing added
-    # is the destination.
+          for edge in edges:
+            copyPath = current_path.copy()
+            copyPath.append(edge)
+            # print(copyPath)
+            # path.append(copyPath)
+            queue.enqueue(copyPath)
 
     ## if not, mark this as visited
     ## get the neighbors
@@ -235,6 +245,7 @@ if __name__ == '__main__':
   Valid BFS path:
     [1, 2, 4, 6]
   '''
+  print('next2')
   print(graph.bfs(1, 6))
 
   '''
