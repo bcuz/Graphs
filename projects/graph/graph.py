@@ -148,8 +148,19 @@ class Graph:
     queue.enqueue(path)
 
     while queue.size() > 0:
-      current_path = queue.dequeue()
-      current_node = current_path[-1]
+      current_path = queue.dequeue() 
+      print(queue.queue)
+      # first one is the one being dequeued, seconds one is what remains in queue
+      # gets [1,2], becomes []
+      # gets [1,2,3], becomes [[1,2,4]]
+      # gets [1,2,4] becomes [[1,2,3,5]]
+      # gets [1,2,3,5], becomes [[1,2,4,6], [1,2,4,7]]
+      # gets [1,2,4,6] becomes [[1,2,4,7]]
+      current_node = current_path[-1] 
+      # 2
+      # 3
+      # 4
+      # 6
 
       if current_node == destination_vertex:
         return current_path
@@ -161,11 +172,12 @@ class Graph:
           # print(edges)
 
           for edge in edges:
-            copyPath = current_path.copy()
-            copyPath.append(edge)
-            # print(copyPath)
-            # path.append(copyPath)
-            queue.enqueue(copyPath)
+            if edge not in visited:
+              copyPath = current_path.copy()
+              copyPath.append(edge)
+              # print(copyPath)
+              # path.append(copyPath)
+              queue.enqueue(copyPath)
 
   def dfs(self, starting_vertex, destination_vertex):
     """
