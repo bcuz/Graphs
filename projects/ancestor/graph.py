@@ -88,22 +88,19 @@ class Graph:
       ## and get its neighbors
         edges = self.get_neighbors(current_node)
         
-        # if 2 edges, mark ans as the lowest
-        # else, ans is the lone edge
-        # return ans at end of func
-        # low = math.inf
-        # if len(edges) > 1:
-        #   for edge in edges:
-        #     if edge < low:
-        #       low = edge
-        # else:
-          
+        # if 2 edges, take lowest from set
+        # if 1 edges, lowest is the one edge
+        if len(edges) > 1:
+          for edge in edges:
+            if edge < lowest:
+              lowest = edge
+        elif len(edges) == 1:
+          lowest = next(iter(edges), None)
 
+        # print(lowest)
       ## stack them on the stack to be visited
         for edge in edges:
           if edge not in visited:
-            if edge < lowest:
-              lowest = edge
             stack.push(edge)
 
     if lowest == math.inf:
