@@ -24,7 +24,11 @@ def earliest_ancestor(ancestors, starting_node):
 
   # loop to add edges
   for tup in ancestors:
-    graph.add_edge(tup[0], tup[1])
+    # print(tup[1], tup[0])
+    graph.add_edge(tup[1], tup[0])
 
   # add both ways? or maybe add the edges in opposite.
-  print(graph.get_neighbors(3))
+  # print(graph.get_neighbors(3))
+  # it pops from the end of edges
+  # print(graph.dft(1))
+  return graph.dft(starting_node)

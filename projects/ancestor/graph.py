@@ -2,6 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+import math
 
 class Graph:
 
@@ -69,6 +70,8 @@ class Graph:
     # make a set for the visited nodes
     visited = set()
 
+    lowest = math.inf
+
     # put our starting node on top of the stack
     stack.push(starting_vertex)
 
@@ -81,13 +84,31 @@ class Graph:
       if current_node not in visited:
       ## if not, mark as visited
         visited.add(current_node)
-        print(current_node)
+        # print(current_node)
       ## and get its neighbors
         edges = self.get_neighbors(current_node)
+        
+        # if 2 edges, mark ans as the lowest
+        # else, ans is the lone edge
+        # return ans at end of func
+        # low = math.inf
+        # if len(edges) > 1:
+        #   for edge in edges:
+        #     if edge < low:
+        #       low = edge
+        # else:
+          
+
       ## stack them on the stack to be visited
         for edge in edges:
-          stack.push(edge)
+          if edge not in visited:
+            if edge < lowest:
+              lowest = edge
+            stack.push(edge)
 
+    if lowest == math.inf:
+      return -1 
+    return lowest
 
   def dft_recursive(self, starting_vertex):
     """
