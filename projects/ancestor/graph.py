@@ -84,7 +84,7 @@ class Graph:
       if current_node not in visited:
       ## if not, mark as visited
         visited.add(current_node)
-        # print(current_node)
+        print(current_node)
       ## and get its neighbors
         edges = self.get_neighbors(current_node)
         
@@ -97,7 +97,7 @@ class Graph:
         elif len(edges) == 1:
           lowest = next(iter(edges), None)
 
-        # print(lowest)
+        # print('w', lowest)
       ## stack them on the stack to be visited
         for edge in edges:
           if edge not in visited:
