@@ -97,7 +97,7 @@ class Graph:
         elif len(edges) == 1:
           lowest = next(iter(edges), None)
 
-        # print(lowest)
+        # print('w', lowest)
       ## stack them on the stack to be visited
         for edge in edges:
           if edge not in visited:
