@@ -31,7 +31,7 @@ def earliest_ancestor(ancestors, starting_node):
   # print(graph.get_neighbors(3))
   # it pops from the end of edges
   # print(graph.dft(1))
-  return graph.dft(starting_node)
+  return graph.dfs(starting_node, 10)
 
 test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7), (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
-print(earliest_ancestor(test_ancestors, 6) == 10)
+print(earliest_ancestor(test_ancestors, 6))

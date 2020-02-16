@@ -2,7 +2,6 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
-import math
 
 class Graph:
 
@@ -70,8 +69,6 @@ class Graph:
     # make a set for the visited nodes
     visited = set()
 
-    lowest = math.inf
-
     # put our starting node on top of the stack
     stack.push(starting_vertex)
 
@@ -87,25 +84,10 @@ class Graph:
         print(current_node)
       ## and get its neighbors
         edges = self.get_neighbors(current_node)
-        
-        # if 2 edges, take lowest from set
-        # if 1 edges, lowest is the one edge
-        if len(edges) > 1:
-          for edge in edges:
-            if edge < lowest:
-              lowest = edge
-        elif len(edges) == 1:
-          lowest = next(iter(edges), None)
-
-        # print('w', lowest)
       ## stack them on the stack to be visited
         for edge in edges:
-          if edge not in visited:
-            stack.push(edge)
+          stack.push(edge)
 
-    if lowest == math.inf:
-      return -1 
-    return lowest
 
   def dft_recursive(self, starting_vertex):
     """
@@ -167,7 +149,7 @@ class Graph:
 
     while queue.size() > 0:
       current_path = queue.dequeue() 
-      print(queue.queue)
+      # print(queue.queue)
       # first one is the one being dequeued, seconds one is what remains in queue
       # gets [1,2], becomes []
       # gets [1,2,3], becomes [[1,2,4]]
@@ -212,10 +194,13 @@ class Graph:
 
     stack.push(path)
 
-    while stack.size() > 0:
+    while stack.size() > 0:      
       current_path = stack.pop()
       current_node = current_path[-1]
 
+      print(current_path, stack.stack)
+
+      # would need to return the 
       if current_node == destination_vertex:
         return current_path
       else:
@@ -223,9 +208,10 @@ class Graph:
           visited.add(current_node)
           edges = self.get_neighbors(current_node)
           for edge in edges:
-            copyPath = current_path.copy()
-            copyPath.append(edge)
-            stack.push(copyPath)
+            if edge not in visited:          
+              copyPath = current_path.copy()
+              copyPath.append(edge)
+              stack.push(copyPath)
 
   def dfs_recursive(self, starting_vertex, destination_vertex):
     """
@@ -351,6 +337,7 @@ if __name__ == '__main__':
     [1, 2, 4, 6]
     [1, 2, 4, 7, 6]
   '''
+  print('next3')
   print(graph.dfs(1, 6))
   # print('next4')
   # print(graph.dfs_recursive(1, 4))
