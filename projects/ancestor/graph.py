@@ -202,10 +202,7 @@ class Graph:
       current_path = stack.pop()
       current_node = current_path[-1]
 
-      print(current_path, current_node)
-
-      if len(current_path) > 1:
-        lowest = current_node
+      # print(current_path, current_node)
 
       # would need to return the 
       # if current_node == destination_vertex:
@@ -214,6 +211,14 @@ class Graph:
       if current_node not in visited:
         visited.add(current_node)
         edges = self.get_neighbors(current_node)
+
+        if len(edges) > 1:
+          for edge in edges:
+            if edge < lowest:
+              lowest = edge
+        elif len(edges) == 1:
+          lowest = next(iter(edges), None)
+
         for edge in edges:
           if edge not in visited:          
             copyPath = current_path.copy()
