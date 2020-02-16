@@ -149,7 +149,7 @@ class Graph:
 
     while queue.size() > 0:
       current_path = queue.dequeue() 
-      print(queue.queue)
+      # print(queue.queue)
       # first one is the one being dequeued, seconds one is what remains in queue
       # gets [1,2], becomes []
       # gets [1,2,3], becomes [[1,2,4]]
@@ -194,10 +194,13 @@ class Graph:
 
     stack.push(path)
 
-    while stack.size() > 0:
+    while stack.size() > 0:      
       current_path = stack.pop()
       current_node = current_path[-1]
 
+      print(current_path, stack.stack)
+
+      # would need to return the 
       if current_node == destination_vertex:
         return current_path
       else:
@@ -205,9 +208,10 @@ class Graph:
           visited.add(current_node)
           edges = self.get_neighbors(current_node)
           for edge in edges:
-            copyPath = current_path.copy()
-            copyPath.append(edge)
-            stack.push(copyPath)
+            if edge not in visited:          
+              copyPath = current_path.copy()
+              copyPath.append(edge)
+              stack.push(copyPath)
 
   def dfs_recursive(self, starting_vertex, destination_vertex):
     """
@@ -333,6 +337,7 @@ if __name__ == '__main__':
     [1, 2, 4, 6]
     [1, 2, 4, 7, 6]
   '''
+  print('next3')
   print(graph.dfs(1, 6))
   # print('next4')
   # print(graph.dfs_recursive(1, 4))
