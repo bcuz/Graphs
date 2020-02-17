@@ -22,12 +22,13 @@ class Stack():
 # Return the earlist ancestor from a list of (parent, child) pairs of ancestors and a starting node
 # If there are multiple earliest ancestors the function returns the smaller value
 def earliest_ancestor(ancestors, starting_node):
-
+  # i grok the flow but i can also grok why i didnt come up with it
   def get_parents(child):
     """
     returns array of immediate parents of child argument
     graph will be DIRECTIONAL -- we only want to consider ancestors, so
     we will only search upwards through the parental heritage, never searching downward
+    1 returns [10], 3 returns [1,2]
     """
     return [pair[0] for pair in ancestors if pair[1] == child]
 
@@ -35,7 +36,7 @@ def earliest_ancestor(ancestors, starting_node):
   if get_parents(starting_node) == []:
     return -1
 
-  print(get_parents(6))
+  # print(get_parents(6))
 
   visited = set()
   s = Stack()
@@ -52,11 +53,12 @@ def earliest_ancestor(ancestors, starting_node):
     # print(last_child)
     parents = get_parents(last_child)
     if len(parents) == 0:
-      # if end of tested path has no parents, the path becomes current ancestor path
-      # but only if it's longer than the current a_path
+      # if last_child has no parents, the path becomes current ancestor path
+      # but only if it's longer than the current ancestor_path
       # in case of tie, the path with the lowest-value earliest ancestor wins
       if len(path) > len(ancestor_path) or (len(path) == len(ancestor_path) and path[-1] < ancestor_path[-1]):
         ancestor_path = path
+        # print(ancestor_path)
     visited.add(last_child)
     for parent in parents:
       copy = path.copy()
@@ -69,4 +71,4 @@ def earliest_ancestor(ancestors, starting_node):
 
 test_ancestors = [(1, 3), (2, 3), (3, 6), (5, 6), (5, 7),
           (4, 5), (4, 8), (8, 9), (11, 8), (10, 1)]
-print(earliest_ancestor(test_ancestors, 1))
+print(earliest_ancestor(test_ancestors, 9))
