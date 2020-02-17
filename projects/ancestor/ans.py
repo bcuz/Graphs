@@ -25,18 +25,17 @@ def earliest_ancestor(ancestors, starting_node):
 
     def get_parents(child):
         """
-        returns array of parents (neighbors) of child (value)
+        returns array of immediate parents of child argument
         graph will be DIRECTIONAL -- we only want to consider ancestors, so
         we will only search upwards through the parental heritage, never searching downward
         """
-        # print([pair[0] for pair in ancestors if pair[1] == child])
         return [pair[0] for pair in ancestors if pair[1] == child]
 
     # return -1 if starting node has no parents
     if get_parents(starting_node) == []:
         return -1
 
-    # print(get_parents(starting_node))
+    print(get_parents(6))
 
     visited = set()
     s = Stack()
@@ -45,12 +44,12 @@ def earliest_ancestor(ancestors, starting_node):
     # ancestor path will keep track of longest running path
     ancestor_path = []
 
-    # while Stack s is empty
+    # while Stack s is not empty
     while s.size() > 0:
         # Set path to the last element in the stack
         path = s.pop()
         last_child = path[-1]
-        print(last_child)
+        # print(last_child)
         parents = get_parents(last_child)
         if len(parents) == 0:
             # if end of tested path has no parents, the path becomes current ancestor path
