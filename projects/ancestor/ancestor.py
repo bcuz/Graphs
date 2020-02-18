@@ -42,8 +42,11 @@ def earliest_ancestor(ancestors, starting_node):
     # print(current_path)
     current_node = current_path[-1]
 
+    # if current_path is longer,
+    # we know it has some sort of parent
     if len(current_path) > len(longPath):
       longPath = current_path
+    # if current_path is equal, we have to choose the smaller parent
     elif len(current_path) == len(longPath):
       if current_node < longPath[-1]:
         longPath = current_path
