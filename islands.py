@@ -82,7 +82,9 @@ def islands_counter(matrix):
   # iterate through the matrix
   # if it's a 1, then we run DFT/BFT
   for row in range(len(matrix)):
-    for col in range(len(matrix)):
+    # we're concerned w/ the row length here
+    # if the island is always X by X it doesnt matter
+    for col in range(len(matrix[0])):
       node = (row, col)
       if node not in visited and matrix[row][col] == 1:
         dft(matrix, node, visited)
