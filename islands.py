@@ -65,7 +65,7 @@ def getNeighbors(matrix, node):
 
   return neighboring_islands
 
-def dft(matrix, node, visited=set()):
+def dft(matrix, node, visited):
   stack = Stack()
   stack.push(node)
   while stack.size() > 0:
