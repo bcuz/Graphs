@@ -34,6 +34,19 @@ class Stack():
   def size(self):
     return len(self.stack)
 
+class Queue():
+  def __init__(self):
+    self.queue = []
+  def enqueue(self, value):
+    self.queue.append(value)
+  def dequeue(self):
+    if self.size() > 0:
+      return self.queue.pop(0)
+    else:
+      return None
+  def size(self):
+    return len(self.queue)    
+
 # checks cardinal directions for any neighbors
 # dft() below will keep looping until entire island is 'mapped out'
 def getNeighbors(matrix, node):
@@ -75,18 +88,22 @@ def getNeighbors(matrix, node):
 
   return neighboring_islands
 
-def dft(matrix, node, visited):
+def bft(matrix, node, visited):
   stack = Stack()
   stack.push(node)
-  while stack.size() > 0:
-    current_node = stack.pop()
+
+  queue = Queue()
+  queue.enqueue(node)
+
+  while queue.size() > 0:
+    current_node = queue.dequeue()
+
     if current_node not in visited:
       visited.add(current_node)
-      # all neighbors we get from getNeighbors() will eventually
-      # be added to visited arr
-      neighbors = getNeighbors(matrix, current_node)
-      for neighbor in neighbors:
-        stack.push(neighbor)
+
+      edges = getNeighbors(matrix, current_node)
+      for edge in edges:
+        queue.enqueue(edge)
 
 def islands_counter(matrix):
   total_islands = 0
@@ -99,7 +116,7 @@ def islands_counter(matrix):
     for col in range(len(matrix[0])):
       node = (row, col)
       if node not in visited and matrix[row][col] == 1:
-        dft(matrix, node, visited)
+        bft(matrix, node, visited)
         # cuz dft() will find the entire island
         total_islands +=1
 
