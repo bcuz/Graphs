@@ -34,7 +34,10 @@ class Stack():
   def size(self):
     return len(self.stack)
 
+# checks cardinal directions for any neighbors
+# dft() below will keep looping until entire island is 'mapped out'
 def getNeighbors(matrix, node):
+  # (0, 1) as example
   row = node[0]
   col = node[1]
 
@@ -42,19 +45,26 @@ def getNeighbors(matrix, node):
 
   stepNorth = stepSouth = stepWest = stepEast = False
 
+  # the other spots on the matrix that we'll check
+  # no
   if row > 0:
     stepNorth = row - 1
   if col > 0:
+  # col 0 (will check that spot)
     stepWest = col - 1
   if row < len(matrix) - 1:
+    # row 1
     stepSouth = row + 1
   if col < len(matrix) - 1:
+    # col 2
     stepEast = col + 1
 
   if stepNorth is not False and matrix[stepNorth][col] == 1:
     neighboring_islands.append((stepNorth, col))
 
   if stepSouth is not False and matrix[stepSouth][col] == 1:
+    # cardinally, this is the only spot that has a 1 in it
+    # (1, 1)
     neighboring_islands.append((stepSouth, col))
 
   if stepWest is not False and matrix[row][stepWest] == 1:
@@ -72,6 +82,8 @@ def dft(matrix, node, visited):
     current_node = stack.pop()
     if current_node not in visited:
       visited.add(current_node)
+      # all neighbors we get from getNeighbors() will eventually
+      # be added to visited arr
       neighbors = getNeighbors(matrix, current_node)
       for neighbor in neighbors:
         stack.push(neighbor)
@@ -88,6 +100,7 @@ def islands_counter(matrix):
       node = (row, col)
       if node not in visited and matrix[row][col] == 1:
         dft(matrix, node, visited)
+        # cuz dft() will find the entire island
         total_islands +=1
 
   return total_islands
