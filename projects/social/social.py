@@ -45,10 +45,11 @@ class SocialGraph:
     ## create a list with all possible friendships
     possible_friendships = []
     for user in range(1, self.last_id + 1):
-      for friend in range(user + 1, self.last_id):
+      for friend in range(user + 1, self.last_id + 1):
         possible_friendship = (user, friend)
         possible_friendships.append(possible_friendship)
     ## then shuffle it randomly
+    # print(possible_friendships)
     random.shuffle(possible_friendships)
     ## and only take as many as we need,
     total_friendships = num_users * avg_friendships // 2
