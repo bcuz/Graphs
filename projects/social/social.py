@@ -42,9 +42,13 @@ class SocialGraph:
     self.last_id = 0
     self.users = {}
     self.friendships = {}
-    # !!!! IMPLEMENT ME
 
     # Add users
+    for x in range(1, num_users+1):
+      for y in range(x+1, num_users+1):
+        print(x, y)
+
+    # print(self.users.keys())
 
     # Create friendships
 
@@ -67,4 +71,4 @@ if __name__ == '__main__':
   sg.populate_graph(10, 2)
   print(sg.friendships)
   connections = sg.get_all_social_paths(1)
-  print(connections)
+  # print(connections)
