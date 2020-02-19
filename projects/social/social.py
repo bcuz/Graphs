@@ -1,6 +1,5 @@
 import random
 
-# Note: This Queue class is sub-optimal. Why?
 class Queue():
   def __init__(self):
     self.queue = []
@@ -73,23 +72,19 @@ class SocialGraph:
     ## and add those friendships
     for friendship in random_friendships:
       self.add_friendship(friendship[0], friendship[1])
-  def get_all_social_paths(self, starting_vertex):
+  def get_all_social_paths(self, user_id):
     """
     Takes a user's user_id as an argument
     Returns a dictionary containing every user in that user's
     extended network with the shortest friendship path between them.
     The key is the friend's ID and the value is the path.
     """
-    visited = {}  # Note that this is a dictionary, not a set
     
     # check for last paths that arent in the dictionary as a key
-
     queue = Queue()
-    # visited = set()
+    visited = {}  # Note that this is a dictionary, not a set
 
-    # path.append([starting_vertex])
-
-    path = [starting_vertex]
+    path = [user_id]
 
     queue.enqueue(path)
 
@@ -98,6 +93,9 @@ class SocialGraph:
     
       current_node = current_path[-1] 
 
+      # the path of any node we havent visited yet is added
+      # and at the end we have a collection of paths cuz 
+      # the algo follows everything until the end
       if current_node not in visited:
         visited[current_node] = current_path
 
@@ -107,8 +105,6 @@ class SocialGraph:
           if edge not in visited:
             copyPath = current_path.copy()
             copyPath.append(edge)
-            # print(copyPath)
-            # path.append(copyPath)
             queue.enqueue(copyPath)
 
     return visited
@@ -116,8 +112,6 @@ if __name__ == '__main__':
   sg = SocialGraph()
   sg.populate_graph(10, 2)
   print(sg.friendships)
-  print(sg.friendships[1])
   connections = sg.get_all_social_paths(1)
-  # print(connections)
+  print(connections)
   print(sorted(connections.keys()))
-
