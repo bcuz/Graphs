@@ -87,7 +87,9 @@ class SocialGraph:
     queue = Queue()
     # visited = set()
 
-    path.append([starting_vertex])
+    # path.append([starting_vertex])
+
+    path = [starting_vertex]
 
     queue.enqueue(path)
 
@@ -97,10 +99,9 @@ class SocialGraph:
       current_node = current_path[-1] 
 
       if current_node not in visited:
-        visited.add(current_node)
+        visited[current_node] = current_path
 
         edges = self.friendships[current_node]
-        # print(edges)
 
         for edge in edges:
           if edge not in visited:
@@ -116,5 +117,7 @@ if __name__ == '__main__':
   sg.populate_graph(10, 2)
   print(sg.friendships)
   print(sg.friendships[1])
-  # connections = sg.get_all_social_paths(1)
+  connections = sg.get_all_social_paths(1)
   # print(connections)
+  print(sorted(connections.keys()))
+
