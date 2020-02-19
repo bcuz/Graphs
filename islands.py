@@ -102,6 +102,7 @@ def islands_counter(matrix):
         # visited set passed around and updated
         dft(matrix, node, visited)
         # cuz dft() will find the entire island
+        # a 1 on it's own is the minimum an island can be
         total_islands +=1
 
   return total_islands
