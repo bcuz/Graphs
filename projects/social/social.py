@@ -57,7 +57,14 @@ class SocialGraph:
 
     random.shuffle(possible_friendships)
 
-    print(possible_friendships)
+    amount = num_users * avg_friendships // 2
+
+    friendships_to_use = possible_friendships[:amount]
+
+    for tup in friendships_to_use:
+      self.add_friendship(tup[0], tup[1])
+
+    # print(friendships_to_use)
 
   def get_all_social_paths(self, user_id):
     """
@@ -76,6 +83,6 @@ class SocialGraph:
 if __name__ == '__main__':
   sg = SocialGraph()
   sg.populate_graph(10, 2)
-  # print(sg.friendships)
+  print(sg.friendships)
   connections = sg.get_all_social_paths(1)
   # print(connections)
