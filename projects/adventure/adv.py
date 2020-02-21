@@ -41,12 +41,10 @@ player = Player(world.starting_room)
 traversal_path = ['n', 'e', 'w', 'n']
 traversal_path = []
 
-for direction in player.current_room.get_exits():
-  graph[player.current_room.id][direction] = '?'
-
 stack = Stack()
-visited = set()
+# visited = set()
 graph = {}
+lastDir = {'dir': None, 'roomNum': None}
 
 stack.push(player.current_room.id)
 
@@ -54,8 +52,13 @@ while stack.size() > 0:
   currentRoom = stack.pop()
   print(currentRoom)
 
-  if currentRoom not in visited:
-    visited.add(currentRoom)
+  if currentRoom not in graph:
+    graph[currentRoom] = {}
+
+    for direction in player.current_room.get_exits():
+      graph[player.current_room.id][direction] = '?'
+
+    # 
 
     randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)
     randomDirection = player.current_room.get_exits()[randomExitIndex]
