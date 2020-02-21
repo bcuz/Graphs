@@ -26,8 +26,21 @@ world.print_rooms()
 player = Player(world.starting_room)
 
 # Fill this out with directions to walk
-traversal_path = []
 traversal_path = ['n', 'e', 'w', 'n']
+traversal_path = []
+
+graph = {}
+
+for direction in player.current_room.get_exits():
+  graph[player.current_room.id][direction] = '?'
+
+  
+
+# add current room to tgraph
+# need to loop and put all possible exits for it
+# move a random direction, but need to keep track of where i came from.
+# object with last room num and !last_direction?
+
 
 # TRAVERSAL TEST
 visited_rooms = set()
