@@ -45,8 +45,18 @@ stack = Stack()
 # visited = set()
 graph = {}
 lastDir = {'dir': None, 'roomNum': None}
+oppositeDir = {'n': 's'}
 
 stack.push(player.current_room.id)
+
+# create with all exits of room 0
+# {0: {'n': '?'}}
+# move north. note that we came from the north (last item in path)
+# how do we get the id of the last room? when we cant check what's behind a door?
+# {
+#  0: {'n': '1'}, 
+#  1: { 's': 0, 'n': '?'}
+# }
 
 while stack.size() > 0:
   currentRoom = stack.pop()
@@ -58,10 +68,23 @@ while stack.size() > 0:
     for direction in player.current_room.get_exits():
       graph[player.current_room.id][direction] = '?'
 
-    # 
-
     randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)
-    randomDirection = player.current_room.get_exits()[randomExitIndex]
+    if len(graph) == 1:
+      randomDirection = player.current_room.get_exits()[randomExitIndex]
+    else:
+      # what if it's a dead end? check for a certain thing being in the lastDir, and the
+      # length of the exits. something along those lines. this feels super messy...
+      # use later
+      # if player.current_room.get_exits()[randomExitIndex] == oppositeDir[lastDir['dir']] and 
+      if len(player.current_room.get_exits()) == 1:
+        continue
+
+
+    # will need to check that we're not moving somewhere we've already moved
+    # on the second loop around. if statement.
+
+    lastDir['dir'] = randomDirection
+    lastDir['roomNum'] = currentRoom
 
     player.travel(randomDirection)
     traversal_path.append(randomDirection)
@@ -94,12 +117,12 @@ else:
 #######
 # UNCOMMENT TO WALK AROUND
 #######
-player.current_room.print_room_description(player)
-while True:
-    cmds = input("-> ").lower().split(" ")
-    if cmds[0] in ["n", "s", "e", "w"]:
-        player.travel(cmds[0], True)
-    elif cmds[0] == "q":
-        break
-    else:
-        print("I did not understand that command.")
+# player.current_room.print_room_description(player)
+# while True:
+#     cmds = input("-> ").lower().split(" ")
+#     if cmds[0] in ["n", "s", "e", "w"]:
+#         player.travel(cmds[0], True)
+#     elif cmds[0] == "q":
+#         break
+#     else:
+#         print("I did not understand that command.")
