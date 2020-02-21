@@ -74,7 +74,7 @@ while stack.size() > 0:
     if len(graph) == 1:
       randomDirection = player.current_room.get_exits()[randomExitIndex]
     else:
-      print(graph)
+      # print(graph)
       randomDirection = player.current_room.get_exits()[randomExitIndex]      
       # what if it's a dead end? check for a certain thing being in the lastDir, and the
       # length of the exits. something along those lines. this feels super messy...
@@ -88,6 +88,12 @@ while stack.size() > 0:
         graph[lastDir['roomNum']][lastDir['dir']] = player.current_room.id
         continue
       else:
+
+        while randomDirection == oppositeDir[lastDir['dir']]:
+          randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)          
+          randomDirection = player.current_room.get_exits()[randomExitIndex]      
+
+
         graph[player.current_room.id][oppositeDir[lastDir['dir']]] = lastDir['roomNum']
         graph[lastDir['roomNum']][lastDir['dir']] = player.current_room.id
 
