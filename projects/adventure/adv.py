@@ -45,7 +45,7 @@ stack = Stack()
 # visited = set()
 graph = {}
 lastDir = {'dir': None, 'roomNum': None}
-oppositeDir = {'n': 's'}
+oppositeDir = {'n': 's', 's': 'n', 'e': 'w', 'w': 'e'}
 
 stack.push(player.current_room.id)
 
@@ -68,21 +68,34 @@ while stack.size() > 0:
     for direction in player.current_room.get_exits():
       graph[player.current_room.id][direction] = '?'
 
+    # think i need to do more w/ not picking an exit that takes me to prev room
+    # way it's set up the random direction is always going north from the first if statement below
     randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)
     if len(graph) == 1:
       randomDirection = player.current_room.get_exits()[randomExitIndex]
     else:
+      print(graph)
+      randomDirection = player.current_room.get_exits()[randomExitIndex]      
       # what if it's a dead end? check for a certain thing being in the lastDir, and the
       # length of the exits. something along those lines. this feels super messy...
       # use later
       # if player.current_room.get_exits()[randomExitIndex] == oppositeDir[lastDir['dir']] and 
       if len(player.current_room.get_exits()) == 1:
+        # updating graph with current room info.
+
+        # this could be where i have to backtrack
+        graph[player.current_room.id][oppositeDir[lastDir['dir']]] = lastDir['roomNum']
+        graph[lastDir['roomNum']][lastDir['dir']] = player.current_room.id
         continue
+      else:
+        graph[player.current_room.id][oppositeDir[lastDir['dir']]] = lastDir['roomNum']
+        graph[lastDir['roomNum']][lastDir['dir']] = player.current_room.id
 
-
+    # this is in progress:
     # will need to check that we're not moving somewhere we've already moved
     # on the second loop around. if statement.
 
+    # what if im going from dead end to new branch of the dft?
     lastDir['dir'] = randomDirection
     lastDir['roomNum'] = currentRoom
 
@@ -91,6 +104,7 @@ while stack.size() > 0:
 
     stack.push(player.current_room.id)  
 
+print(graph)
 # add current room to tgraph
 # need to loop and put all possible exits for it
 # move a random direction, but need to keep track of where i came from.
