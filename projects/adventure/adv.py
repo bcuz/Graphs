@@ -8,6 +8,18 @@ from ast import literal_eval
 # Load world
 world = World()
 
+class Stack():
+  def __init__(self):
+    self.stack = []
+  def push(self, value):
+    self.stack.append(value)
+  def pop(self):
+    if self.size() > 0:
+      return self.stack.pop()
+    else:
+      return None
+  def size(self):
+    return len(self.stack)
 
 # You may uncomment the smaller graphs for development and testing purposes.
 map_file = "maps/test_line.txt"
@@ -29,12 +41,29 @@ player = Player(world.starting_room)
 traversal_path = ['n', 'e', 'w', 'n']
 traversal_path = []
 
-graph = {}
-
 for direction in player.current_room.get_exits():
   graph[player.current_room.id][direction] = '?'
 
-  
+stack = Stack()
+visited = set()
+graph = {}
+
+stack.push(player.current_room.id)
+
+while stack.size() > 0:
+  currentRoom = stack.pop()
+  print(currentRoom)
+
+  if currentRoom not in visited:
+    visited.add(currentRoom)
+
+    randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)
+    randomDirection = player.current_room.get_exits()[randomExitIndex]
+
+    player.travel(randomDirection)
+    traversal_path.append(randomDirection)
+
+    stack.push(player.current_room.id)  
 
 # add current room to tgraph
 # need to loop and put all possible exits for it
