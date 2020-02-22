@@ -110,6 +110,17 @@ while stack.size() > 0:
         # go opposite direction until there is a ? found
         print(graph, player.current_room.id)
 
+        count = 0
+        # if there are no '?' in the entire graph, break from the loop?
+        for item in graph:
+          # print(item)
+          for dr in graph[item]:
+            if graph[item][dr] == '?':
+              count += 1
+
+        if count == 0:
+          break
+
         queue = Queue()
         visited = set()
         path = [player.current_room.id]
@@ -133,8 +144,9 @@ while stack.size() > 0:
               visited.add(current_node)
 
 
-              # print('c', current_node, len(graph[current_node]))
+              # print('c', current_node, len(graph[current_node]), graph[current_node])
 
+              # if there's only one way to go back, take that way.
               if len(graph[current_node]) == 1:
                 dirTravel = list(graph[current_node].keys())[0]
                 player.travel(dirTravel)
