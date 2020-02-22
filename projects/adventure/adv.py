@@ -88,6 +88,14 @@ while stack.size() > 0:
         # this could be where i have to backtrack
         graph[player.current_room.id][oppositeDir[lastDir['dir']]] = lastDir['roomNum']
         graph[lastDir['roomNum']][lastDir['dir']] = player.current_room.id
+
+        # bfs to nearest question mark
+        # then make a move based on that data. hazy at this point
+        # go opposite direction until there is a ? found
+        print(graph, lastDir)
+
+
+
         continue
       else:
 
@@ -114,7 +122,8 @@ while stack.size() > 0:
 
     stack.push(player.current_room.id)  
 
-print(graph)
+# print(graph)
+# print(traversal_path)
 # add current room to tgraph
 # need to loop and put all possible exits for it
 # move a random direction, but need to keep track of where i came from.
