@@ -117,9 +117,10 @@ while stack.size() > 0:
           current_path = queue.dequeue() 
           current_node = current_path[-1] 
           # print('c', current_node)
-          # print(lastDir)
 
           if '?' in graph[current_node].values():
+            # then we need to take the item in this var
+            # and start dft again on any of the q marks.
             ans = current_path
             break
           else:
@@ -131,7 +132,7 @@ while stack.size() > 0:
 
               traversal_path.append(dirTravel)
 
-              print('h', player.current_room.id)
+              # print('h', player.current_room.id)
 
               # edges = self.get_neighbors(current_node)
               # print(edges)
@@ -152,6 +153,10 @@ while stack.size() > 0:
               #     queue.enqueue(copyPath)
 
         print(ans)
+        print(traversal_path)
+
+        stack.push(ans[-1])  
+
         continue
       else:
 
@@ -165,6 +170,7 @@ while stack.size() > 0:
         graph[player.current_room.id][oppositeDir[lastDir['dir']]] = lastDir['roomNum']
         graph[lastDir['roomNum']][lastDir['dir']] = player.current_room.id
 
+      
     # this is in progress:
     # will need to check that we're not moving somewhere we've already moved
     # on the second loop around. if statement.
@@ -177,6 +183,18 @@ while stack.size() > 0:
     traversal_path.append(randomDirection)
 
     stack.push(player.current_room.id)  
+  else:
+
+    if '?' not in graph[currentRoom].values():
+      break
+    else:
+      for direct in graph[currentRoom]:
+        if graph[currentRoom][direct] == '?':
+          player.travel(direct)
+          traversal_path.append(direct)
+          # print('e', player.current_room.id, traversal_path)
+
+        # stack.push(player.current_room.id)  
 
 # print(graph)
 # print(traversal_path)
