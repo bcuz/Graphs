@@ -123,22 +123,6 @@ class Graph:
     breath-first order.
     """
 
-    # make a queue
-    # make a set for visited
-
-    # enqueue A PATH TO the starting_vertex
-
-    # while the queue isn't empty:
-    ## dequeue the next path
-    ## current_node is the last thing in the path
-    ## check if it's the target, aka the destination_vertex
-    ## if so, return the path!!
-
-    ## if not, mark this as visited
-    ## get the neighbors
-    ## copy the path, add the neighbor to the copy
-    ## for each one, add a PATH TO IT to our queue
-
     queue = Queue()
     visited = set()
     path = []
@@ -149,18 +133,7 @@ class Graph:
 
     while queue.size() > 0:
       current_path = queue.dequeue() 
-      # print(queue.queue)
-      # first one is the one being dequeued, seconds one is what remains in queue
-      # gets [1,2], becomes []
-      # gets [1,2,3], becomes [[1,2,4]]
-      # gets [1,2,4] becomes [[1,2,3,5]]
-      # gets [1,2,3,5], becomes [[1,2,4,6], [1,2,4,7]]
-      # gets [1,2,4,6] becomes [[1,2,4,7]]
       current_node = current_path[-1] 
-      # 2
-      # 3
-      # 4
-      # 6
 
       if current_node == destination_vertex:
         return current_path
