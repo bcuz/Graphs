@@ -72,6 +72,8 @@ while stack.size() > 0:
     # way it's set up the random direction is always going north from the first if statement below
     randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)
     if len(graph) == 1:
+      # move line up and make general area more concise. if != 1 do something
+      # so there wouldnt be an else
       randomDirection = player.current_room.get_exits()[randomExitIndex]
     else:
       # print(graph)
@@ -89,6 +91,8 @@ while stack.size() > 0:
         continue
       else:
 
+        # keep regenerating a random direction until we get any room 
+        # EXCEPT the one we came from
         while randomDirection == oppositeDir[lastDir['dir']]:
           randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)          
           randomDirection = player.current_room.get_exits()[randomExitIndex]      
