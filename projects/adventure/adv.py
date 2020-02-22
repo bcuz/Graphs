@@ -35,8 +35,8 @@ class Queue():
     return len(self.queue)    
 
 # You may uncomment the smaller graphs for development and testing purposes.
-map_file = "maps/test_line.txt"
-# map_file = "maps/test_cross.txt"
+# map_file = "maps/test_line.txt"
+map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
 # map_file = "maps/main_maze.txt"
@@ -122,15 +122,39 @@ while stack.size() > 0:
             # then we need to take the item in this var
             # and start dft again on any of the q marks.
             ans = current_path
+            stack.push(ans[-1])  
+            # print(5, ans)
             break
           else:
             if current_node not in visited:
               visited.add(current_node)
 
-              dirTravel = list(graph[current_node].keys())[0]
-              player.travel(dirTravel)
 
-              traversal_path.append(dirTravel)
+              # print('c', current_node, len(graph[current_node]))
+
+              if len(graph[current_node]) == 1:
+                dirTravel = list(graph[current_node].keys())[0]
+                player.travel(dirTravel)
+
+                traversal_path.append(dirTravel)
+
+                lastDir['dir'] = dirTravel
+                lastDir['roomNum'] = current_node
+
+              else:
+                # print('c', current_node, lastDir)
+                # cant go the opposite of the last direction.
+                # maybe a break after moving in this loop
+                for direct in graph[current_node]:
+                  # print(direct)
+                  if direct != oppositeDir[lastDir['dir']]:
+                    player.travel(direct)
+
+                    traversal_path.append(direct)
+
+                    lastDir['dir'] = direct
+                    lastDir['roomNum'] = current_node                    
+                    break
 
               # print('h', player.current_room.id)
 
@@ -152,10 +176,9 @@ while stack.size() > 0:
               #     # path.append(copyPath)
               #     queue.enqueue(copyPath)
 
-        print(ans)
-        print(traversal_path)
+        # print(ans)
+        # print(traversal_path)
 
-        stack.push(ans[-1])  
 
         continue
       else:
@@ -197,7 +220,7 @@ while stack.size() > 0:
         # stack.push(player.current_room.id)  
 
 # print(graph)
-# print(traversal_path)
+print(traversal_path)
 # add current room to tgraph
 # need to loop and put all possible exits for it
 # move a random direction, but need to keep track of where i came from.
