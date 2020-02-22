@@ -70,12 +70,15 @@ stack.push(player.current_room.id)
 #  0: {'n': '1'}, 
 #  1: { 's': 0, 'n': '?'}
 # }
+elseState = None
 
 while stack.size() > 0:
   currentRoom = stack.pop()
   print(currentRoom)
 
-  if currentRoom not in graph:
+  # it should go here
+  if currentRoom not in graph or elseState == True:
+    elseState = False
     graph[currentRoom] = {}
 
     for direction in player.current_room.get_exits():
@@ -208,16 +211,46 @@ while stack.size() > 0:
     stack.push(player.current_room.id)  
   else:
 
+    # print('c', currentRoom, lastDir)
+
+    # something happening when we got back to 0. not adding to stack?
+
     if '?' not in graph[currentRoom].values():
       break
     else:
       for direct in graph[currentRoom]:
         if graph[currentRoom][direct] == '?':
+
+          print('f', currentRoom, lastDir)
+
           player.travel(direct)
           traversal_path.append(direct)
-          # print('e', player.current_room.id, traversal_path)
 
-        # stack.push(player.current_room.id)  
+          # make the move, record it, then let the while do the rest
+          # not that easy
+          graph[player.current_room.id] = {}
+
+          for direction in player.current_room.get_exits():
+            graph[player.current_room.id][direction] = '?'
+
+          graph[player.current_room.id][oppositeDir[lastDir['dir']]] = lastDir['roomNum']
+          graph[lastDir['roomNum']][lastDir['dir']] = player.current_room.id
+
+          lastDir['dir'] = direct
+          lastDir['roomNum'] = currentRoom
+
+          # need it to revert back to the main logic for things to work. so things go back to breadth
+          # could try a variable.
+
+          print('s', currentRoom, lastDir)
+          # not recording it on the graph
+          # maybe need last direction stuff here, too
+
+          # print('hi')
+          stack.push(player.current_room.id)  
+          elseState = True
+          break
+
 
 # print(graph)
 print(traversal_path)
