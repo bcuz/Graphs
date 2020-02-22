@@ -21,6 +21,19 @@ class Stack():
   def size(self):
     return len(self.stack)
 
+class Queue():
+  def __init__(self):
+    self.queue = []
+  def enqueue(self, value):
+    self.queue.append(value)
+  def dequeue(self):
+    if self.size() > 0:
+      return self.queue.pop(0)
+    else:
+      return None
+  def size(self):
+    return len(self.queue)    
+
 # You may uncomment the smaller graphs for development and testing purposes.
 map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
@@ -92,10 +105,53 @@ while stack.size() > 0:
         # bfs to nearest question mark
         # then make a move based on that data. hazy at this point
         # go opposite direction until there is a ? found
-        print(graph, lastDir)
+        print(graph, player.current_room.id)
 
+        queue = Queue()
+        visited = set()
+        path = [player.current_room.id]
 
+        queue.enqueue(path)
 
+        while queue.size() > 0:
+          current_path = queue.dequeue() 
+          current_node = current_path[-1] 
+          # print('c', current_node)
+          # print(lastDir)
+
+          if '?' in graph[current_node].values():
+            ans = current_path
+            break
+          else:
+            if current_node not in visited:
+              visited.add(current_node)
+
+              dirTravel = list(graph[current_node].keys())[0]
+              player.travel(dirTravel)
+
+              traversal_path.append(dirTravel)
+
+              print('h', player.current_room.id)
+
+              # edges = self.get_neighbors(current_node)
+              # print(edges)
+
+              copyPath = current_path.copy()
+              copyPath.append(player.current_room.id)
+              # print(copyPath)
+              # path.append(copyPath)
+              queue.enqueue(copyPath)
+
+              # not sure if below needed
+              # for edge in edges:
+              #   if edge not in visited:
+              #     copyPath = current_path.copy()
+              #     copyPath.append(edge)
+              #     # print(copyPath)
+              #     # path.append(copyPath)
+              #     queue.enqueue(copyPath)
+
+        print(ans)
         continue
       else:
 
