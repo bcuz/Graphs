@@ -36,8 +36,8 @@ class Queue():
 
 # You may uncomment the smaller graphs for development and testing purposes.
 # map_file = "maps/test_line.txt"
-map_file = "maps/test_cross.txt"
-# map_file = "maps/test_loop.txt"
+# map_file = "maps/test_cross.txt"
+map_file = "maps/test_loop.txt"
 # map_file = "maps/test_loop_fork.txt"
 # map_file = "maps/main_maze.txt"
 
@@ -200,10 +200,10 @@ while stack.size() > 0:
 
         # keep regenerating a random direction until we get any room 
         # EXCEPT the one we came from
+        # print('h', currentRoom)
         while randomDirection == oppositeDir[lastDir['dir']]:
           randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)          
           randomDirection = player.current_room.get_exits()[randomExitIndex]      
-
 
         graph[player.current_room.id][oppositeDir[lastDir['dir']]] = lastDir['roomNum']
         graph[lastDir['roomNum']][lastDir['dir']] = player.current_room.id
@@ -221,9 +221,14 @@ while stack.size() > 0:
     traversal_path.append(randomDirection)
 
     stack.push(player.current_room.id)  
+    # 0 is being added to the stack.
+    print('w', stack.stack)
   else:
 
-    # print('c', currentRoom, lastDir)
+    graph[player.current_room.id][oppositeDir[lastDir['dir']]] = lastDir['roomNum']
+    graph[lastDir['roomNum']][lastDir['dir']] = player.current_room.id
+
+    print('c', currentRoom, graph[currentRoom])
 
     # something happening when we got back to 0. not adding to stack?
 
@@ -232,8 +237,6 @@ while stack.size() > 0:
     else:
       for direct in graph[currentRoom]:
         if graph[currentRoom][direct] == '?':
-
-          print('f', currentRoom, lastDir)
 
           player.travel(direct)
           traversal_path.append(direct)
@@ -245,8 +248,9 @@ while stack.size() > 0:
           for direction in player.current_room.get_exits():
             graph[player.current_room.id][direction] = '?'
 
-          graph[player.current_room.id][oppositeDir[lastDir['dir']]] = lastDir['roomNum']
-          graph[lastDir['roomNum']][lastDir['dir']] = player.current_room.id
+          # not here because the loop might take care of it on the next go around
+          # graph[player.current_room.id][oppositeDir[lastDir['dir']]] = lastDir['roomNum']
+          # graph[lastDir['roomNum']][lastDir['dir']] = player.current_room.id
 
           lastDir['dir'] = direct
           lastDir['roomNum'] = currentRoom
@@ -254,7 +258,7 @@ while stack.size() > 0:
           # need it to revert back to the main logic for things to work. so things go back to breadth
           # could try a variable.
 
-          print('s', currentRoom, lastDir)
+          # print('s', currentRoom, graph[currentRoom])
           # not recording it on the graph
           # maybe need last direction stuff here, too
 
