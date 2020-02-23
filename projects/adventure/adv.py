@@ -7,6 +7,12 @@ from ast import literal_eval
 
 # Load world
 world = World()
+# You may uncomment the smaller graphs for development and testing purposes.
+map_file = "maps/test_line.txt"
+# map_file = "maps/test_cross.txt"
+# map_file = "maps/test_loop.txt"
+# map_file = "maps/test_loop_fork.txt"
+# map_file = "maps/main_maze.txt"
 
 class Stack():
   def __init__(self):
@@ -34,12 +40,6 @@ class Queue():
   def size(self):
     return len(self.queue)    
 
-# You may uncomment the smaller graphs for development and testing purposes.
-# map_file = "maps/test_line.txt"
-# map_file = "maps/test_cross.txt"
-map_file = "maps/test_loop.txt"
-# map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
 
 # Loads the map into a dictionary
 room_graph=literal_eval(open(map_file, "r").read())
@@ -136,6 +136,9 @@ while stack.size() > 0:
             # then we need to take the item in this var
             # and start dft again on any of the q marks.
             ans = current_path
+
+            # traversing the path once you get it.
+            print('a', ans)
             stack.push(ans[-1])  
             # print(5, ans)
             break
@@ -143,7 +146,7 @@ while stack.size() > 0:
             if current_node not in visited:
               visited.add(current_node)
 
-
+              print('z', current_node, graph[current_node])
               # print('c', current_node, len(graph[current_node]), graph[current_node])
 
               # if there's only one way to go back, take that way.
@@ -162,6 +165,8 @@ while stack.size() > 0:
                 # maybe a break after moving in this loop
                 for direct in graph[current_node]:
                   # print(direct)
+                  # if we've never traveled there. 
+
                   if direct != oppositeDir[lastDir['dir']]:
                     player.travel(direct)
 
@@ -222,7 +227,7 @@ while stack.size() > 0:
 
     stack.push(player.current_room.id)  
     # 0 is being added to the stack.
-    print('w', stack.stack)
+    # print('w', stack.stack)
   else:
 
     graph[player.current_room.id][oppositeDir[lastDir['dir']]] = lastDir['roomNum']
