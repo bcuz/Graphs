@@ -8,10 +8,10 @@ from ast import literal_eval
 # Load world
 world = World()
 # You may uncomment the smaller graphs for development and testing purposes.
-map_file = "maps/test_line.txt"
+# map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
-# map_file = "maps/test_loop_fork.txt"
+map_file = "maps/test_loop_fork.txt"
 # map_file = "maps/main_maze.txt"
 
 class Stack():
@@ -163,18 +163,37 @@ while stack.size() > 0:
                 # print('c', current_node, lastDir)
                 # cant go the opposite of the last direction.
                 # maybe a break after moving in this loop
-                for direct in graph[current_node]:
-                  # print(direct)
-                  # if we've never traveled there. 
+                # print('y', player.current_room.id, current_node)
 
-                  if direct != oppositeDir[lastDir['dir']]:
-                    player.travel(direct)
+                randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)                        
+                randomDirection = player.current_room.get_exits()[randomExitIndex]                 
 
-                    traversal_path.append(direct)
+                while randomDirection == oppositeDir[lastDir['dir']]:
+                  randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)          
+                  randomDirection = player.current_room.get_exits()[randomExitIndex]   
 
-                    lastDir['dir'] = direct
-                    lastDir['roomNum'] = current_node                    
-                    break
+                player.travel(randomDirection)
+
+                traversal_path.append(randomDirection)
+
+                lastDir['dir'] = randomDirection
+                lastDir['roomNum'] = current_node
+
+                # for direct in graph[current_node]:
+                #   # if we've never traveled there. 
+
+                #   # should include randomness here. not sure that will solve
+                #   # things but it might make things pass sometimes. prob wont make the bigger
+                #   # graph solve
+
+                #   if direct != oppositeDir[lastDir['dir']]:
+                #     player.travel(direct)
+
+                #     traversal_path.append(direct)
+
+                #     lastDir['dir'] = direct
+                #     lastDir['roomNum'] = current_node                    
+                #     break
 
               # print('h', player.current_room.id)
 
