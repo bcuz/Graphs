@@ -11,8 +11,8 @@ world = World()
 # map_file = "maps/test_line.txt"
 # map_file = "maps/test_cross.txt"
 # map_file = "maps/test_loop.txt"
-map_file = "maps/test_loop_fork.txt"
-# map_file = "maps/main_maze.txt"
+# map_file = "maps/test_loop_fork.txt"
+map_file = "maps/main_maze.txt"
 
 class Stack():
   def __init__(self):
@@ -74,7 +74,7 @@ elseState = None
 
 while stack.size() > 0:
   currentRoom = stack.pop()
-  print(currentRoom)
+  print(currentRoom, stack.stack)
 
   # it should go here
   if currentRoom not in graph or elseState == True:
@@ -101,6 +101,8 @@ while stack.size() > 0:
       if len(player.current_room.get_exits()) == 1:
         # updating graph with current room info.
 
+        print('here', graph[currentRoom], len(graph[currentRoom]))
+
         # this could be where i have to backtrack
         graph[player.current_room.id][oppositeDir[lastDir['dir']]] = lastDir['roomNum']
         graph[lastDir['roomNum']][lastDir['dir']] = player.current_room.id
@@ -108,7 +110,7 @@ while stack.size() > 0:
         # bfs to nearest question mark
         # then make a move based on that data. hazy at this point
         # go opposite direction until there is a ? found
-        print(graph, player.current_room.id)
+        # print(graph, player.current_room.id)
 
         count = 0
         # if there are no '?' in the entire graph, break from the loop?
@@ -132,6 +134,8 @@ while stack.size() > 0:
           current_node = current_path[-1] 
           # print('c', current_node)
 
+          # LF check if the last thing in the program gets to here.
+
           # print('x', current_node, current_path, graph)
 
           if '?' in graph[current_node].values():
@@ -148,7 +152,7 @@ while stack.size() > 0:
             if current_node not in visited:
               visited.add(current_node)
 
-              # print('z', current_node, graph[current_node])
+              # print('z', current_node)
               # print('c', current_node, len(graph[current_node]), graph[current_node])
 
               # if there's only one way to go back, take that way.
@@ -287,6 +291,8 @@ while stack.size() > 0:
 
           player.travel(direct)
           traversal_path.append(direct)
+
+          print('g', player.current_room.id)
 
           # make the move, record it, then let the while do the rest
           # not that easy
