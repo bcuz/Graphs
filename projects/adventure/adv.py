@@ -132,6 +132,8 @@ while stack.size() > 0:
           current_node = current_path[-1] 
           # print('c', current_node)
 
+          print('x', current_path, graph[current_node].values())
+
           if '?' in graph[current_node].values():
             # then we need to take the item in this var
             # and start dft again on any of the q marks.
@@ -146,7 +148,7 @@ while stack.size() > 0:
             if current_node not in visited:
               visited.add(current_node)
 
-              print('z', current_node, graph[current_node])
+              # print('z', current_node, graph[current_node])
               # print('c', current_node, len(graph[current_node]), graph[current_node])
 
               # if there's only one way to go back, take that way.
@@ -164,6 +166,9 @@ while stack.size() > 0:
                 # cant go the opposite of the last direction.
                 # maybe a break after moving in this loop
                 # print('y', player.current_room.id, current_node)
+
+                # probably shouldnt be relying on randomess here. should be building
+                # something to the next ? space
 
                 randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)                        
                 randomDirection = player.current_room.get_exits()[randomExitIndex]                 
