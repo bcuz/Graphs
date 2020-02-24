@@ -132,7 +132,7 @@ while stack.size() > 0:
           current_node = current_path[-1] 
           # print('c', current_node)
 
-          print('x', current_path, graph[current_node].values())
+          # print('x', current_node, current_path, graph)
 
           if '?' in graph[current_node].values():
             # then we need to take the item in this var
@@ -170,19 +170,37 @@ while stack.size() > 0:
                 # probably shouldnt be relying on randomess here. should be building
                 # something to the next ? space
 
-                randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)                        
-                randomDirection = player.current_room.get_exits()[randomExitIndex]                 
+                got = False
 
-                while randomDirection == oppositeDir[lastDir['dir']]:
-                  randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)          
-                  randomDirection = player.current_room.get_exits()[randomExitIndex]   
+                for dr in graph[current_node]:
+                  # print(graph[current_node][dr], graph[graph[current_node][dr]])
+                  if '?' in graph[graph[current_node][dr]].values():
+                    # print(dr, graph[current_node][dr])
 
-                player.travel(randomDirection)
+                    player.travel(dr)
 
-                traversal_path.append(randomDirection)
+                    traversal_path.append(dr)
 
-                lastDir['dir'] = randomDirection
-                lastDir['roomNum'] = current_node
+                    lastDir['dir'] = dr
+                    lastDir['roomNum'] = current_node                    
+
+                    got = True
+
+                if got == False:
+                  # worry about dryness later
+                  randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)                        
+                  randomDirection = player.current_room.get_exits()[randomExitIndex]                 
+
+                  while randomDirection == oppositeDir[lastDir['dir']]:
+                    randomExitIndex = random.randint(0, len(player.current_room.get_exits())-1)          
+                    randomDirection = player.current_room.get_exits()[randomExitIndex]   
+
+                  player.travel(randomDirection)
+
+                  traversal_path.append(randomDirection)
+
+                  lastDir['dir'] = randomDirection
+                  lastDir['roomNum'] = current_node
 
                 # for direct in graph[current_node]:
                 #   # if we've never traveled there. 
