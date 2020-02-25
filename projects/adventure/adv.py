@@ -132,9 +132,11 @@ while stack.size() > 0:
         while queue.size() > 0:
           current_path = queue.dequeue() 
           current_node = current_path[-1] 
-          # print('c', current_node)
+          
+          print('zhere', current_node)
 
           # LF check if the last thing in the program gets to here.
+          # print('zhere')
 
           # print('x', current_node, current_path, graph)
 
@@ -149,6 +151,8 @@ while stack.size() > 0:
             # print(5, ans)
             break
           else:
+            # might be stopping if visiting again during the series
+            # but how to prevent this..
             if current_node not in visited:
               visited.add(current_node)
 
@@ -205,7 +209,7 @@ while stack.size() > 0:
 
                   lastDir['dir'] = randomDirection
                   lastDir['roomNum'] = current_node
-
+            
                 # for direct in graph[current_node]:
                 #   # if we've never traveled there. 
 
