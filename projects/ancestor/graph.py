@@ -2,6 +2,7 @@
 Simple graph implementation
 """
 from util import Stack, Queue  # These may come in handy
+import math
 
 class Graph:
 
@@ -116,12 +117,29 @@ class Graph:
     helper(starting_vertex)
       
   # had to watch until 34:45 of https://www.youtube.com/watch?v=aWoLa0UisNs&feature=youtu.be
-  def bfs(self, starting_vertex, destination_vertex):
+  # def bfs(self, starting_vertex, destination_vertex):
+  def bfs(self, starting_vertex):
     """
     Return a list containing the shortest path from
     starting_vertex to destination_vertex in
     breath-first order.
     """
+
+    # make a queue
+    # make a set for visited
+
+    # enqueue A PATH TO the starting_vertex
+
+    # while the queue isn't empty:
+    ## dequeue the next path
+    ## current_node is the last thing in the path
+    ## check if it's the target, aka the destination_vertex
+    ## if so, return the path!!
+
+    ## if not, mark this as visited
+    ## get the neighbors
+    ## copy the path, add the neighbor to the copy
+    ## for each one, add a PATH TO IT to our queue
 
     queue = Queue()
     visited = set()
@@ -133,26 +151,37 @@ class Graph:
 
     while queue.size() > 0:
       current_path = queue.dequeue() 
+      # print(queue.queue)
+      # first one is the one being dequeued, seconds one is what remains in queue
+      # gets [1,2], becomes []
+      # gets [1,2,3], becomes [[1,2,4]]
+      # gets [1,2,4] becomes [[1,2,3,5]]
+      # gets [1,2,3,5], becomes [[1,2,4,6], [1,2,4,7]]
+      # gets [1,2,4,6] becomes [[1,2,4,7]]
       current_node = current_path[-1] 
+      # 2
+      # 3
+      # 4
+      # 6
 
-      if current_node == destination_vertex:
-        return current_path
-      else:
-        if current_node not in visited:
-          visited.add(current_node)
+      # if current_node == destination_vertex:
+      #   return current_path
+      if current_node not in visited:
+        visited.add(current_node)
 
-          edges = self.get_neighbors(current_node)
-          # print(edges)
+        edges = self.get_neighbors(current_node)
+        # print(edges)
 
-          for edge in edges:
-            if edge not in visited:
-              copyPath = current_path.copy()
-              copyPath.append(edge)
-              # print(copyPath)
-              # path.append(copyPath)
-              queue.enqueue(copyPath)
+        for edge in edges:
+          if edge not in visited:
+            copyPath = current_path.copy()
+            copyPath.append(edge)
+            # print(copyPath)
+            # path.append(copyPath)
+            queue.enqueue(copyPath)
 
-  def dfs(self, starting_vertex, destination_vertex):
+  # def dfs(self, starting_vertex, destination_vertex):
+  def dfs(self, starting_vertex):
     """
     Return a list containing a path from
     starting_vertex to destination_vertex in
@@ -167,24 +196,38 @@ class Graph:
 
     stack.push(path)
 
+    lowest = math.inf
+
     while stack.size() > 0:      
       current_path = stack.pop()
       current_node = current_path[-1]
 
-      print(current_path, stack.stack)
+      # print(current_path, current_node)
 
       # would need to return the 
-      if current_node == destination_vertex:
-        return current_path
-      else:
-        if current_node not in visited:
-          visited.add(current_node)
-          edges = self.get_neighbors(current_node)
+      # if current_node == destination_vertex:
+      #   return current_path
+      # else:
+      if current_node not in visited:
+        visited.add(current_node)
+        edges = self.get_neighbors(current_node)
+
+        if len(edges) > 1:
           for edge in edges:
-            if edge not in visited:          
-              copyPath = current_path.copy()
-              copyPath.append(edge)
-              stack.push(copyPath)
+            if edge < lowest:
+              lowest = edge
+        elif len(edges) == 1:
+          lowest = next(iter(edges), None)
+
+        for edge in edges:
+          if edge not in visited:          
+            copyPath = current_path.copy()
+            copyPath.append(edge)
+            stack.push(copyPath)
+
+    if lowest == math.inf:
+      return -1 
+    return lowest
 
   def dfs_recursive(self, starting_vertex, destination_vertex):
     """
